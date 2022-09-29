@@ -16,7 +16,7 @@ public class CustomerApi {
     private CustomerService customerService;
     private CustomerMapper customerMapper;
     @GetMapping(path = "/customers")
-    @RolesAllowed({"MANAGER", "ANALYST", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     @CrossOrigin("*")
     public List<CustomerDto> getCustomerDtoList (){
 

@@ -17,35 +17,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http = http.cors().and().csrf().disable();
+                // Disable CORS and CSRF
+         http.cors().and().csrf().disable()
+
                 // Set permissions on endpoints
-                http
-                        .authorizeRequests()
-
+                .authorizeRequests()
                 // private endpoints
-                .antMatchers(HttpMethod.GET, "/customers").hasAnyRole("MANAGER","ANALYST","CLIENT")
-                .antMatchers(HttpMethod.GET, "/customer/{id}").hasAnyRole("MANAGER","ANALYST","CLIENT")
-                        .anyRequest().authenticated();
-        http.httpBasic();
+                .antMatchers(HttpMethod.GET, "/customers").hasAnyRole("EMPLOYEE")
+                .antMatchers(HttpMethod.GET, "/customer/{id}").hasAnyRole("EMPLOYEE")
+                        .anyRequest().authenticated()
+                 .and().httpBasic();
 
-        //Set session management to stateless
+//        Set session management to stateless
         http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
+
 }
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.inMemoryAuthentication()
-                .withUser("manager").password(passwordEncoder().encode("managerPass"))
-                .roles("MANAGER")
-                .and()
-                .withUser("analyst").password(passwordEncoder().encode("analystPass"))
-                .roles("ANALYST")
-                .and()
-                .withUser("client").password(passwordEncoder().encode("clientPass"))
-                .roles("CLIENT");
-    }
+                .withUser("employee").password(passwordEncoder().encode("employeePass"))
+                .roles("EMPLOYEE");}
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

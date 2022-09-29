@@ -17,11 +17,9 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerApiTest {
-
     @InjectMocks private CustomerApi customerApi;
     @Mock private CustomerService customerService;
     @Mock private CustomerMapper customerMapper;
-
 
     @Test
     public void whenGetCustomerDtoList_thenReturnAllCustomerDto (){
